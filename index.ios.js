@@ -3,6 +3,7 @@
  * https://github.com/facebook/react-native
  * @flow
  */
+
 import React from 'react';
 import Prioritize from './src/components/Prioritize';
 import { AppRegistry } from 'react-native';
@@ -55,5 +56,3 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   }, 
 }); */
-
-AppRegistry.registerComponent('Prioritize', () => Prioritize);
