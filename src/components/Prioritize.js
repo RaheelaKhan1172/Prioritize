@@ -66,6 +66,10 @@ export default class Prioritize extends Component {
                     onPress={() => this.addTask()}>
                     <Text> Add Task </Text>
                 </TouchableHighlight>
+                <TouchableHighlight
+                    onPress={ () => this.refs.navigator.popToTop()}>
+                    <Text> Home </Text>
+                </TouchableHighlight>
                 
             </View>
                 
