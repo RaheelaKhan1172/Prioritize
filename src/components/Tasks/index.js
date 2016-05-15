@@ -6,11 +6,13 @@ import {
     Text
 } from 'react-native';
 
+
 var Task = React.createClass({
     render() {
         return (
-            <View style={styles.container}>
-                <Text> Test </Text>
+            <View>
+                <Text> Taught wrong </Text>
+                <Text> haha </Text>
             </View>
         );
     }
