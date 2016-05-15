@@ -4,6 +4,8 @@
  * @flow
  */
 
+'use strict';
+
 import React from 'react';
 import Prioritize from './src/components/Prioritize';
 import { AppRegistry } from 'react-native';

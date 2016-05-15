@@ -1,3 +1,5 @@
+'use strict';
+
 import React from 'react';
 
 import {
@@ -30,12 +32,14 @@ const AddTask = React.createClass({
     
    render() {
        return (
-         <View>
+         <View style={styles.container}>
+           <Text style={styles.textCenter}> Add a task </Text>
            <TextInput
              style={{height:40, borderColor:'gray', borderWidth:1}}
              onChangeText={(text) => this.setState({task:text})}
              onSubmitEditing={(text) => this.setState({task:text})} />
             
+            <Text style={styles.textCenter}> Set Priority </Text>
             <Slider
               minimumValue={0}
               maximumValue={10}
@@ -44,11 +48,18 @@ const AddTask = React.createClass({
               onValueChange={ (value) => this.setState({value:value})} />
               <Text> {this.state.value} </Text>
          </View>                         
-        
        );
    }
 });
 
-
+var styles = StyleSheet.create({
+    container: {
+        marginTop:170,
+        flex:1,
+    },
+    textCenter: {
+        marginLeft:150
+    }
+});
 
 module.exports = AddTask;

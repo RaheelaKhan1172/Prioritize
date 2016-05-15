@@ -1,5 +1,6 @@
 //@flow
 
+'use strict';
 
 import React, { Component } from 'react';
 import {
@@ -30,7 +31,6 @@ export default class Prioritize extends Component {
             name:'view'
         });
     }
-    
     
     renderScene(route,navigator) {
         console.info('hi', route,route.name);
