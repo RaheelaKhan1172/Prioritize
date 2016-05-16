@@ -3,6 +3,10 @@
 'use strict';
 
 import React, { Component } from 'react';
+import Reflux from 'reflux';
+import { HeapActions } from './../actions';
+import HeapStore from './../stores/HeapStore';
+
 import {
     StyleSheet,
     Text,
@@ -16,27 +20,32 @@ import ViewTask from './ViewTasks';
 import AddTask from './AddTask';
 
 
-export default class Prioritize extends Component {
+const Prioritize = React.createClass({
+    
+    mixins: [Reflux.connect(HeapStore,'heapStore')],
+    
+    componentWillMount() {
+        HeapStore.emit();    
+    },
     
     addTask() {
       this.refs.navigator.push({
           component:'AddTask',
           name: 'add'
       });
-    }
+    },
     
     view() {
         this.refs.navigator.push({
             component: 'ViewTask',
             name:'view'
         });
-    }
+    },
     
     renderScene(route,navigator) {
-        console.info('hi', route,route.name);
+
         switch(route.name) {
             case 'tasks':
-                console.info('hm');
                 return <Task 
                         addTask={this.addTask}
                         view={this.view} 
@@ -46,7 +55,7 @@ export default class Prioritize extends Component {
             case 'add':
                 return <AddTask/>
         }    
-    }
+    },
     
     render() {
         //navigator will not work if put inside container 
@@ -75,10 +84,12 @@ export default class Prioritize extends Component {
                 
         );
     }
-};
+});
 
 var styles = StyleSheet.create({
     container: {
      flex:1,
     }
 });
+
+export default Prioritize;

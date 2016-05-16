@@ -11,7 +11,15 @@ import {
     TouchableHighlight
 } from 'react-native';
 
+import { HeapActions } from './../../actions';
+import PriorityQueue from './../../data/Pq';
+import Heap from './../../data/Heap';
+
 const AddTask = React.createClass({
+    
+   propTypes: {
+       task: React.PropTypes.instanceOf(Heap) 
+   },
 
    getDefaultProps() {
      return {
@@ -22,31 +30,39 @@ const AddTask = React.createClass({
    getInitialState() {
        return {
            task:'',
-           value: this.props.value
+           priority: this.props.value
        }
    },
-   
-   alertStuff() {
-     alert('hi', this.state.text);         
+    
+   pushTask() {
+     //  alert(this.state.task,this.state.priority);
+       HeapActions.push(this.state.task,this.state.priority);
+       
    },
     
    render() {
        return (
          <View style={styles.container}>
+           <TouchableHighlight
+                onPress={() => this.pushTask()}> 
+                    <Text> Add </Text> 
+                </TouchableHighlight>
            <Text style={styles.textCenter}> Add a task </Text>
            <TextInput
              style={{height:40, borderColor:'gray', borderWidth:1}}
-             onChangeText={(text) => this.setState({task:text})}
-             onSubmitEditing={(text) => this.setState({task:text})} />
-            
+             value={this.state.text}
+             onChangeText={(text) => this.setState({task:text})} />
+            <Text> {this.state.task} </Text>
             <Text style={styles.textCenter}> Set Priority </Text>
             <Slider
               minimumValue={0}
               maximumValue={10}
               step={1}
               {...this.props}
-              onValueChange={ (value) => this.setState({value:value})} />
-              <Text> {this.state.value} </Text>
+              onValueChange={ (value) => this.setState({priority:value})} 
+              onSlidingComplete={(value) => this.setState({priority:value})} /> 
+              <Text> {this.state.priority} </Text>
+              
          </View>                         
        );
    }

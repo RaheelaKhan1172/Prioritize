@@ -2,10 +2,10 @@
 
 import Reflux from 'reflux';
 
-export const HeapActions = Reflux.createActions({
-    'push'
-    'pop'
-    'deleteAll'
-    'viewCurrentTask'
+export var HeapActions = Reflux.createActions([
+    'push',
+    'pop',
+    'deleteAll',
+    'viewCurrentTask',
     'viewNextTasks'
-});
+]);

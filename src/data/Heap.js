@@ -1,6 +1,10 @@
 'use strict';
 
-export default class Heap {
+class Heap {
+    constructor(tasks) {
+        this.tasks = tasks;
+    }
+    
     getRightChild(parentIndex) {
         return parentIndex * 2 + 2;
     }
@@ -62,8 +66,10 @@ export default class Heap {
     }
     
     static fromObject(object) {
-        let h = new Heap();
+        let h = new Heap(object);
         return h;
     }
     
 }
+
+module.exports = Heap;
