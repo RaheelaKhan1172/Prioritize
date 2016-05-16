@@ -1,10 +1,6 @@
 'use strict';
 
 class Heap {
-    constructor(tasks) {
-        this.tasks = tasks;
-    }
-    
     getRightChild(parentIndex) {
         return parentIndex * 2 + 2;
     }
@@ -65,11 +61,18 @@ class Heap {
         }
     }
     
-    static fromObject(object) {
-        let h = new Heap(object);
-        return h;
+    setFromObject(obj) {
+        console.log('objest again', obj);
+        this.tasks.push({entry: obj.tasks[0].entry, priority: obj.tasks[0].priority});    
     }
     
+    static fromObject(object) {
+        let h = new Heap();
+        console.log('og',object);
+        h.setFromObject(object);
+        console.log(h,'hey');
+        return h;
+    }
 }
 
 module.exports = Heap;

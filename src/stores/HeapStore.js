@@ -13,24 +13,27 @@ const KEY = 'toDoKey';
 
 var HeapStore = Reflux.createStore({
    init() {
+       this.tasks = [];
+       this.heap = new Heap();
        this.loadHeap().done();
        this.listenTo(HeapActions.push,this.push);
        this.listenTo(HeapActions.pop, this.pop);
        this.listenTo(HeapActions.deleteAll, this.deleteAll);
        this.listenTo(HeapActions.viewCurrentTask, this.viewCurrentTask);
        this.listenTo(HeapActions.viewNextTasks, this.viewNextTasks);
-       this.tasks = [];
        this.emit();
+       
    }, 
     
    async loadHeap() {
      try {
          var task = await AsyncStorage.getItem(KEY);
-         
-         if (task !== null) {
+         console.log(task,'t');
+         if (task != null) {
             this.tasks = JSON.parse(task).map((obj) => {
-                return Heap.fromObject(obj);
+                return PriorityQueue.fromObject(obj);
             });
+             
             this.emit();
          } else {
              console.info(`${KEY} not found.`);
@@ -59,10 +62,7 @@ var HeapStore = Reflux.createStore({
         var node = new PriorityQueue(entry,priority);
         this.tasks.push(node);
         console.log(Heap,node,entry,priority,'in push');
-        AsyncStorage.getItem(KEY).then(function(value) {
-            console.log('hi',JSON.parse(value),PriorityQueue);
-        });
-   //     Heap.upHeap(this.tasks.length-1,node,this.tasks);
+   //     this.heap.upHeap(this.tasks.length-1,node,this.tasks);
         
         this.emit();
         
@@ -87,7 +87,7 @@ var HeapStore = Reflux.createStore({
     emit() {
         this.writeHeap().done();
         this.trigger(this.tasks);
-        (console.log(this.tasks))
+        (console.log('hi',this.tasks))
     }
 });
 
