@@ -18,6 +18,7 @@ var HeapStore = Reflux.createStore({
        this.loadHeap().done();
        this.listenTo(HeapActions.push,this.push);
        this.listenTo(HeapActions.pop, this.pop);
+       this.listenTo(HeapActions.popSuccess, this.popSuccess);
        this.listenTo(HeapActions.deleteAll, this.deleteAll);
        this.listenTo(HeapActions.viewCurrentTask, this.viewCurrentTask);
        this.listenTo(HeapActions.viewNextTasks, this.viewNextTasks);
@@ -28,12 +29,12 @@ var HeapStore = Reflux.createStore({
    async loadHeap() {
      try {
          var task = await AsyncStorage.getItem(KEY);
-         console.log(task,'t');
-         if (task != null) {
+         console.log(task,'t')
+         if (task != null) {            
             this.tasks = JSON.parse(task).map((obj) => {
                 return PriorityQueue.fromObject(obj);
             });
-             
+            
             this.emit();
          } else {
              console.info(`${KEY} not found.`);
@@ -42,7 +43,7 @@ var HeapStore = Reflux.createStore({
          console.error('storage error: ', error.message);
      }
    },
-
+   
    async writeHeap() {
        try {
            await AsyncStorage.setItem(KEY,JSON.stringify(this.tasks));
@@ -62,27 +63,46 @@ var HeapStore = Reflux.createStore({
         var node = new PriorityQueue(entry,priority);
         this.tasks.push(node);
         console.log(Heap,node,entry,priority,'in push');
-   //     this.heap.upHeap(this.tasks.length-1,node,this.tasks);
         
+        this.tasks = this.heap.upHeap(this.tasks);
+   //     this.tasks = this.heap.upHeap(this.tasks.length-1,node,this.tasks);
+        console.log('and after', this.tasks);
         this.emit();
         
     },
     
-    pop() {
+    pop(cb) {
         var headNode = this.tasks[0];
-        var tailNode = this.tasks.pop();
-        this.tasks[0] = tailNode;
-        Heap.siftDown(0,tailNode,this.tasks);
+        this.tasks.shift();
+        console.log('hi in pop',this.tasks);
+        this.tasks = this.heap.siftDown(this.tasks);
         this.emit();
-        
+        cb(JSON.stringify(headNode));
     },
     
-    viewCurrentTask() {
-        return this.tasks[0];
+    popSuccess() {
+        var deleted = this.tasks[0];
+        this.tasks.shift();
+        this.tasks = this.heap.siftDown(this.tasks);
+        this.emit();
+        return deleted;
     },
     
-    viewNextTasks() {
-        return [this.tasks[1], this.tasks[2]];
+    viewCurrentTask(cb) {
+        console.log('hit?', this.tasks[0]);
+        if (this.tasks.length) {
+            var entry = this.tasks[0].entry;
+            var prior = this.tasks[0].priority;
+            console.log(entry);
+            cb([entry,prior]);
+        } else {
+            console.log('hi');
+            cb();
+        }
+    },
+    
+    viewNextTasks(cb) {
+        cb(JSON.stringify([this.tasks[1], this.tasks[2]]));
     },
     emit() {
         this.writeHeap().done();

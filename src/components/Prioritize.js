@@ -24,14 +24,48 @@ const Prioritize = React.createClass({
     
     mixins: [Reflux.connect(HeapStore,'heapStore')],
     
+    getInitialState() {
+        return {
+            initRoute: null,
+            loaded:false,
+        };
+    },
+    
     componentWillMount() {
+        this.renderInitialRoute();
         HeapStore.emit();    
+    },
+    
+     renderInitialRoute() {
+      var _this = this;
+      HeapActions.viewCurrentTask(function(result) {
+          console.log(result,'res', result);
+          if (result) {
+            _this.setState({initRoute:'view', loaded:true});          
+          } else {
+              _this.setState({initRoute:'tasks', loaded:true});
+          }
+      });
+    },
+
+    main() {
+        this.refs.navigator.push({
+            component: 'Task',
+            name: 'tasks'
+        });
     },
     
     addTask() {
       this.refs.navigator.push({
           component:'AddTask',
           name: 'add'
+      });
+    },
+    
+    viewNext() {
+      var _this = this;
+      HeapActions.viewNextTasks(function(result) {
+          console.log(result,'hi');
       });
     },
     
@@ -43,7 +77,7 @@ const Prioritize = React.createClass({
     },
     
     renderScene(route,navigator) {
-
+        console.log('route', route, route.name);
         switch(route.name) {
             case 'tasks':
                 return <Task 
@@ -56,14 +90,26 @@ const Prioritize = React.createClass({
                 return <AddTask/>
         }    
     },
-    
+        
+    loading() {
+        return (
+            <View>
+            <Text>
+                Just wait...
+            </Text>
+            </View>
+        );
+    },
+            
     render() {
-        //navigator will not work if put inside container 
+        if (!this.state.loaded) {
+            return this.loading();
+        }
         return (
             <View style={styles.container}>
                 <Navigator
                      ref='navigator'
-                     initialRoute={{name: 'tasks'}}
+                     initialRoute={{name:this.state.initRoute}}
                      renderScene={this.renderScene}>
                 </Navigator>
             
@@ -76,7 +122,7 @@ const Prioritize = React.createClass({
                     <Text> Add Task </Text>
                 </TouchableHighlight>
                 <TouchableHighlight
-                    onPress={ () => this.refs.navigator.popToTop()}>
+                    onPress={ () => this.main()}>
                     <Text> Home </Text>
                 </TouchableHighlight>
                 

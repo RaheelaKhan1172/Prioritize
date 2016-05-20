@@ -14,6 +14,7 @@ import {
 import { HeapActions } from './../../actions';
 import PriorityQueue from './../../data/Pq';
 import Heap from './../../data/Heap';
+import ViewTask from '../ViewTasks';
 
 const AddTask = React.createClass({
     
@@ -35,16 +36,14 @@ const AddTask = React.createClass({
    },
     
    pushTask() {
-     //  alert(this.state.task,this.state.priority);
        HeapActions.push(this.state.task,this.state.priority);
-       
    },
     
    render() {
        return (
          <View style={styles.container}>
            <TouchableHighlight
-                onPress={() => this.pushTask()}> 
+                onPress={() =>  this.pushTask()}> 
                     <Text> Add </Text> 
                 </TouchableHighlight>
            <Text style={styles.textCenter}> Add a task </Text>

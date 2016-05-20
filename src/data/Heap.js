@@ -17,17 +17,37 @@ class Heap {
         return (childNode.priority > parentNode.priority)? true : false;
     }
     
-    upHeap(childIndex,childNode,taskArray) {
+    
+    upHeap(taskArray) {
+        return taskArray.sort(function(a,b) {
+            return b.priority - a.priority;
+        });
+    }
+    
+    siftDown(taskArray) {
+        console.log('in sort',taskArray);
+        return taskArray.sort(function(a,b) {
+            return b.priority - a.priority;
+        });
+    }
+    /*upHeap(childIndex,childNode,taskArray) {
+        console.log('ba4', taskArray);
+        
         if (childIndex > 0) {
             var parentIndex = this.getParentIndex(childIndex);
             var parentNode = taskArray[parentIndex];
-            
+            console.log('parentNode', parentNode)
             if(this.shouldSwap(childNode,parentNode)) {
+                console.log('am I happening?');
                 taskArray[parentIndex] = childNode;
                 taskArray[childIndex] = parentNode;
                 this.upHeap(parentIndex,childNode,taskArray);
             }
         }
+        
+        console.log(taskArray,'hey in upHeap');
+        
+        return taskArray;
     }
     
     siftDown(parentIndex,parentNode,taskArray) {
@@ -59,7 +79,7 @@ class Heap {
             }
             
         }
-    }
+    } */
     
     setFromObject(obj) {
         console.log('objest again', obj);
