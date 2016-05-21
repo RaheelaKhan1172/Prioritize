@@ -35,6 +35,7 @@ var ViewTask = React.createClass({
       RewardStore.emit();
       this.viewTask();
     },
+  
     
     viewTask() {
         var _this = this;
