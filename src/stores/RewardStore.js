@@ -5,10 +5,9 @@
 import Reward from './../data/Reward';
 
 import {HeapActions} from './../actions';
-import HeapStore from './HeapStore';
 import Reflux from 'reflux';
 import React from 'react';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 const REWARD = 'rewardKey';
 
@@ -16,9 +15,9 @@ var RewardStore = Reflux.createStore({
     init() {
         this.currentStreak = new Reward();
         this.load().done();
-        this.listenTo(HeapActions.popSuccess,this.popRS);
-        this.emit();
+        this.listenTo(HeapActions.popSuccess,this.popSuccess);
     },
+    
     async load() {
         try {
             var result = await AsyncStorage.getItem(REWARD);
@@ -44,17 +43,34 @@ var RewardStore = Reflux.createStore({
     async update() {
         try {
             var num = await AsyncStorage.getItem(REWARD);
-            console.log('the num', num);
-            //await AsyncStorage.setItem(REWARD,num);
-            //this.emit();
+            this.currentStreak.total = Number(num);
+            this.handleUpdate();
         } catch (e) {
             console.error('error error' ,e )
         }
     },
     
-    popRS() {
+    handleUpdate() {
+        console.log('in handle update', this.currentStreak.total,typeof this.currentStreak.total);
+        this.currentStreak.total = this.currentStreak.total+=1;    
+        console.log('new handle update', this.currentStreak.total);
+        this.emit();
+    },
+    /* @ bool checkIfStreak(function) */
+    checkIfStreak(cb) {
+        console.log('did i happen?');
+        if(cb) {
+        if (Number(this.currentStreak.total) % 5 === 0) {
+             cb(true);
+        }    else {
+            cb(false);
+        }
+        }
+    },
+    
+    popSuccess(cb) {
         console.log('i was hit in pop store');
-        this.update().done();        
+        this.update().done();   
         
     },
     

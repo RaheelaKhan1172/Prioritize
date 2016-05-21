@@ -7,6 +7,7 @@ export var HeapActions = Reflux.createActions([
     'popSuccess',
     'pop',
     'deleteAll',
+    'getAllTasks',
     'viewCurrentTask',
     'viewNextTasks',
 ]);

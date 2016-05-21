@@ -6,7 +6,6 @@ import React, { Component } from 'react';
 import Reflux from 'reflux';
 import { HeapActions } from './../actions';
 import HeapStore from './../stores/HeapStore';
-
 import {
     StyleSheet,
     Text,

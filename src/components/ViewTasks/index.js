@@ -2,12 +2,14 @@
 
 import React from 'react';
 import AddTask from '../AddTask';
+import Reflux from 'reflux';
 import { HeapActions } from './../../actions';
 import HeapStore from './../../stores/HeapStore';
 import RewardStore from './../../stores/RewardStore';
 
 import {
     Animated,
+    Alert,
     StyleSheet,
     View,
     Text,
@@ -16,17 +18,21 @@ import {
 
 var ViewTask = React.createClass({
     
+    mixins: [Reflux.connect(RewardStore,'rewardStore')],
+    
     getInitialState() {
         console.log('me first');
         return {
             currentTask: null,
             priority: 0,
-            data: false
+            data: false,
+            streak:false,
 
         };
     },
     
     componentWillMount() {
+      RewardStore.emit();
       this.viewTask();
     },
     
@@ -47,9 +53,13 @@ var ViewTask = React.createClass({
         var _this = this;
         HeapActions.popSuccess();
         
-        RewardStore.popRS(function(res) {
-            console.log('in reward store pop' , res);
+        RewardStore.popSuccess();
+        RewardStore.checkIfStreak(function(res) {
+            if (res) {
+                alert('WOHOO! You are on fiya!');
+            }
         });
+        _this.viewTask();
     },
     
     deletePop() {
