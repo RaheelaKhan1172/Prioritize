@@ -9,7 +9,9 @@ import {
     Slider,
     Text,
     Image,
-    TouchableHighlight
+    TouchableHighlight,
+    Animated,
+    Easing
 } from 'react-native';
 
 import { HeapActions } from './../../actions';
@@ -37,14 +39,19 @@ const AddTask = React.createClass({
            priority: this.props.value,
            intPriority: '',
            recentlyAdded: '',
+           fadeAnim: new Animated.Value(0)
        }
    },
    
    alertSuccess() {
-       console.log('hmmm');
+       
        this.setState({
            recentlyAdded: "Added '" + this.state.task + "' and it is  " + this.state.intPriority + ' to do.'
        });
+       Animated.timing(
+        this.state.fadeAnim,
+        {toValue:1}
+       ).start();
        
        console.log('hi in alert',this.state.recentlyAdded);
    },
@@ -75,18 +82,23 @@ const AddTask = React.createClass({
    render() {
        return(
              <View style={styles.container}>
-                <Text> {this.state.recentlyAdded} </Text>
+                <Animated.Text
+                 style={{opacity:this.state.fadeAnim,color:'#727272',marginBottom:40}}>
+                    {this.state.recentlyAdded} 
+                 </Animated.Text>
              
                 <Text style={styles.textCenter}> Add a task </Text>
                 <TextInput
                      ref={component => this._textInput = component}
-                     style={{height:40, borderColor:'gray', borderWidth:1}}
+                     style={styles.form}
                      value={this.state.text}
                      onChangeText={ (text) => this.setState({task:text})} />
                 <Text style={styles.textCenter}> Set Priority </Text>
                 <Slider
                   minimumValue={0}
                   maximumValue={10}
+                  maximumTrackTintColor={'#512DA8'}
+                  minimumTrackTintColor={'#E040FB'}
                   step={1}
                   {...this.props}
                   onValueChange={ (value) => this.setState({priority:value})} 
@@ -95,7 +107,7 @@ const AddTask = React.createClass({
                     onPress={() =>  this.pushTask()}> 
                   <Image
                     source={require('./../../../images/plus.png')}
-                    style={{width:40 ,height:40,marginLeft:300}} />
+                    style={{width:40 ,height:40,marginLeft:300,padding:0}} />
                 </TouchableHighlight>
              </View>    
         );
@@ -106,10 +118,21 @@ var styles = StyleSheet.create({
     container: {
         flex:1,
         justifyContent:'center',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#D1C4E9'
     },
     textCenter: {
-        marginLeft:150
+        marginLeft:20,
+        textDecorationLine:'underline',
+        textDecorationColor:'#212121',
+        color:'#727272',
+        marginBottom:10,
+        fontSize:20
+    },
+    form: {
+        height:40,
+        borderRadius:20,
+        borderColor: '#512DA8',
+        borderWidth:1
     }
 });
 

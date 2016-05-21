@@ -134,7 +134,7 @@ const Prioritize = React.createClass({
 var styles = StyleSheet.create({
     container: {
      flex:1,
-     backgroundColor:'#F5FCFF'
+     backgroundColor:'#D1C4E9'
     }
 });
 
