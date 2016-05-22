@@ -1,7 +1,6 @@
 'use strict';
-
+//next to do
 import React from 'react';
-import AddTask from '../AddTask';
 import Reflux from 'reflux';
 import { HeapActions } from './../../actions';
 import HeapStore from './../../stores/HeapStore';
@@ -13,6 +12,7 @@ import {
     StyleSheet,
     View,
     Text,
+    Image,
     TouchableHighlight
 } from 'react-native';
 
@@ -21,7 +21,6 @@ var ViewTask = React.createClass({
     mixins: [Reflux.connect(RewardStore,'rewardStore')],
     
     getInitialState() {
-        console.log('me first');
         return {
             currentTask: null,
             priority: 0,
@@ -74,8 +73,7 @@ var ViewTask = React.createClass({
     noData() {
       return(
         <View>
-          <Text > No tasks yet! </Text>
-          <AddTask/>
+          <Text > No tasks yet! Add a task</Text>
           </View>
       );  
     },
@@ -84,16 +82,24 @@ var ViewTask = React.createClass({
         if(this.state.data) {
         return(
             <View style={styles.container}>
-                <Text> To Do </Text> 
-                <Text> {this.state.currentTask}  , {this.state.priority}</Text>
-                <TouchableHighlight
-                    onPress={this.donePop}> 
-                    <Text> Done </Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    onPress={this.deletePop}> 
-                    <Text> Delete </Text>
-                </TouchableHighlight>
+                <Text style={styles.headline}> This task has the highest priority. You can do it! </Text> 
+                <Text style={styles.mainText}> {this.state.currentTask}</Text>
+                <View style={styles.left}>
+                    <TouchableHighlight
+                        onPress={this.donePop}> 
+                        <Image
+                        source={require('./../../../images/success.png')}
+                        style={{width:40, height:40}}/>
+                    </TouchableHighlight>
+                <View style={styles.horizontal}>
+                    <TouchableHighlight
+                        onPress={this.deletePop}> 
+                        <Image 
+                            source={require('./../../../images/circle.png')}
+                            style={{width:40,height:40}} />
+                    </TouchableHighlight>
+                 </View>
+                </View>
             </View>
         );
         } else {
@@ -104,10 +110,35 @@ var ViewTask = React.createClass({
 
 var styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex:1, 
+    },
+    mainText: {
+        fontSize:50,
+        fontStyle:'normal',
+        textAlign:'center',
+        alignItems:'center',
+        justifyContent:'center',
+        fontFamily: 'Cochin',
+        color: '#212121',
+        marginTop:70
+    },
+    left: {
+         flexDirection:'row',
         justifyContent:'center',
         alignItems:'center',
-        
+    },
+    horizontal: {
+        padding:4,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    headline: {
+        marginTop:45,
+        color:'#FFFFFF',
+        fontSize:15,
+        textAlign:'left',
+        textDecorationLine: 'underline',
+        textDecorationColor: '#B6B6B6'
     },
 });
 

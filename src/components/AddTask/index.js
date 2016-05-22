@@ -83,7 +83,7 @@ const AddTask = React.createClass({
        return(
              <View style={styles.container}>
                 <Animated.Text
-                 style={{opacity:this.state.fadeAnim,color:'#727272',marginBottom:40}}>
+                 style={{opacity:this.state.fadeAnim,color:'#B6B6B6',marginBottom:40,marginTop:45}}>
                     {this.state.recentlyAdded} 
                  </Animated.Text>
              
@@ -117,14 +117,13 @@ const AddTask = React.createClass({
 var styles = StyleSheet.create({
     container: {
         flex:1,
-        justifyContent:'center',
         backgroundColor: '#D1C4E9'
     },
     textCenter: {
         marginLeft:20,
         textDecorationLine:'underline',
-        textDecorationColor:'#212121',
-        color:'#727272',
+        textDecorationColor:'#B6B6B6',
+        color:'#FFFFFF',
         marginBottom:10,
         fontSize:20
     },

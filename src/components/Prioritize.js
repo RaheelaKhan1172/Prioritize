@@ -1,5 +1,5 @@
 //@flow
-
+//next to do fix navigation
 'use strict';
 
 import React, { Component } from 'react';
@@ -42,7 +42,7 @@ const Prioritize = React.createClass({
           if (result) {
             _this.setState({initRoute:'view', loaded:true});          
           } else {
-              _this.setState({initRoute:'tasks', loaded:true});
+              _this.setState({initRoute:'add', loaded:true});
           }
       });
     },
