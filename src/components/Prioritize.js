@@ -27,13 +27,17 @@ const Prioritize = React.createClass({
         return {
             initRoute: null,
             loaded:false,
-            dataAvail:false
+            dataAvail:false,
+            show: true,
         };
     },
     
     componentWillMount() {
         this.renderInitialRoute();
         HeapStore.emit();    
+    },
+    componentDidUpdate() {
+            
     },
     
      renderInitialRoute() {
@@ -47,7 +51,11 @@ const Prioritize = React.createClass({
           }
       });
     },
-
+    
+    toggleVisibility() {
+        this.setState({show:false});    
+    },
+    
     main() {
         this.refs.navigator.push({
             component: 'Task',
@@ -55,7 +63,8 @@ const Prioritize = React.createClass({
         });
     },
     
-    addTask() {
+    addTask() {        
+      this.toggleVisibility(); t
       this.refs.navigator.push({
           component:'AddTask',
           name: 'add'
@@ -90,6 +99,23 @@ const Prioritize = React.createClass({
                 return <AddTask/>
         }    
     },
+        
+    toggleAdd() {
+        if (this.state.show) {
+            return (
+                <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
+                    style={styles.noDataButton}
+                    onPress={() => this.addTask()}>
+                    <Text> Add Task </Text>
+                </TouchableHighlight>
+            );
+        } else {
+            return null;
+        }
+    },
+    
     noData() {
         return (
            <View style={styles.container}>
@@ -98,13 +124,7 @@ const Prioritize = React.createClass({
                      initialRoute={{name:'tasks'}}
                      renderScene={this.renderScene}>
                 </Navigator> 
-                    <TouchableHighlight
-                    activeOpacity={0.5}
-                    underlayColor={'transparent'}
-                    style={styles.noDataButton}
-                    onPress={() => this.addTask()}>
-                    <Text> Add Task </Text>
-                </TouchableHighlight>
+                  {this.toggleAdd()}
             </View>
          );
     },
@@ -120,21 +140,17 @@ const Prioritize = React.createClass({
             
                 <TouchableHighlight 
                  onPress={() => this.view()}>
-                    <Text>View</Text>
+                    <Text>Current Task</Text>
                 </TouchableHighlight>
                 <TouchableHighlight
                     onPress={() => this.addTask()}>
                     <Text> Add Task </Text>
                 </TouchableHighlight>
-                <TouchableHighlight
-                    onPress={ () => this.main()}>
-                    <Text> Home </Text>
-                </TouchableHighlight>
             </View>
                 
         );
     },
-        
+            
     loading() {
         return (
           <View>
