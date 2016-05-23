@@ -72,8 +72,8 @@ var ViewTask = React.createClass({
     
     noData() {
       return(
-        <View>
-          <Text > No tasks yet! Add a task</Text>
+        <View style={styles.container}>
+          <Text > Completed all tasks!</Text>
           </View>
       );  
     },

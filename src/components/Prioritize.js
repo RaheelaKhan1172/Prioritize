@@ -27,6 +27,7 @@ const Prioritize = React.createClass({
         return {
             initRoute: null,
             loaded:false,
+            dataAvail:false
         };
     },
     
@@ -40,9 +41,9 @@ const Prioritize = React.createClass({
       HeapActions.viewCurrentTask(function(result) {
           console.log(result,'res', result);
           if (result) {
-            _this.setState({initRoute:'view', loaded:true});          
+            _this.setState({initRoute:'view', loaded:true,dataAvail:true});          
           } else {
-              _this.setState({initRoute:'add', loaded:true});
+              _this.setState({initRoute:'tasks', loaded:true,dataAvail:false});
           }
       });
     },
@@ -89,26 +90,31 @@ const Prioritize = React.createClass({
                 return <AddTask/>
         }    
     },
-        
-    loading() {
+    noData() {
         return (
-            <View>
-            <Text>
-                Just wait...
-            </Text>
+           <View style={styles.container}>
+                <Navigator
+                     ref='navigator'
+                     initialRoute={{name:'tasks'}}
+                     renderScene={this.renderScene}>
+                </Navigator> 
+                    <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
+                    style={styles.noDataButton}
+                    onPress={() => this.addTask()}>
+                    <Text> Add Task </Text>
+                </TouchableHighlight>
             </View>
-        );
+         );
     },
-            
-    render() {
-        if (!this.state.loaded) {
-            return this.loading();
-        }
+        
+    dataAvailable() {
         return (
             <View style={styles.container}>
                 <Navigator
                      ref='navigator'
-                     initialRoute={{name:this.state.initRoute}}
+                     initialRoute={{name:'view'}}
                      renderScene={this.renderScene}>
                 </Navigator>
             
@@ -124,10 +130,31 @@ const Prioritize = React.createClass({
                     onPress={ () => this.main()}>
                     <Text> Home </Text>
                 </TouchableHighlight>
-                
             </View>
                 
         );
+    },
+        
+    loading() {
+        return (
+          <View>
+               <Text> 
+                Loading.. 
+                </Text>
+                
+            </View>
+        );
+    },
+            
+    render() {
+        if (!this.state.loaded) {
+            return this.loading();
+        }
+        if (this.state.dataAvail) {
+            return this.dataAvailable();
+        } else {
+            return this.noData();
+        }
     }
 });
 
@@ -135,6 +162,16 @@ var styles = StyleSheet.create({
     container: {
      flex:1,
      backgroundColor:'#D1C4E9'
+    },
+    noDataButton: {
+        marginBottom:340,
+        alignItems: 'center',
+        justifyContent:'center',
+        borderColor:'#9C27B0',
+        borderWidth:1,
+        borderRadius:10,
+        width:70,
+        marginLeft:150
     }
 });
 
