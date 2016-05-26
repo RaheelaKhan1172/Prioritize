@@ -11,13 +11,14 @@ import {
     Text,
     View,
     Navigator,
+    Image,
     TouchableHighlight
 } from 'react-native';
 
 import Task from './Tasks';
 import ViewTask from './ViewTasks';
 import AddTask from './AddTask';
-
+import ViewAll from './ViewAll';
 
 const Prioritize = React.createClass({
     
@@ -29,6 +30,7 @@ const Prioritize = React.createClass({
             loaded:false,
             dataAvail:false,
             show: true,
+            dataLength:0,
         };
     },
     
@@ -36,27 +38,43 @@ const Prioritize = React.createClass({
         this.renderInitialRoute();
         HeapStore.emit();    
     },
-    componentDidUpdate() {
-            
-    },
-    
-     renderInitialRoute() {
+
+    renderInitialRoute() {
       var _this = this;
       HeapActions.viewCurrentTask(function(result) {
           console.log(result,'res', result);
           if (result) {
-            _this.setState({initRoute:'view', loaded:true,dataAvail:true});          
+              console.log('ho hey')
+            _this.setState({initRoute:'view', loaded:true,dataAvail:true,dataLength:result.length});          
           } else {
               _this.setState({initRoute:'tasks', loaded:true,dataAvail:false});
+              _this.toggleVis();
           }
       });
+    },
+    getData() {
+        var _this = this;
+        HeapActions.viewCurrentTask(function(result) {
+            console.log('hey in here');
+            if (result) {
+                console.log('result in here');
+                _this.setState({dataAvail:true,dataLength:result.length});
+            } else {
+                _this.setState({dataAvail:false,dataLength:0,initRoute:'tasks',show:true});
+            }
+        });
     },
     
     toggleVisibility() {
         this.setState({show:false});    
     },
     
+    toggleVis() {
+        this.setState({show:true});    
+    },
+    
     main() {
+        this.toggleVis();
         this.refs.navigator.push({
             component: 'Task',
             name: 'tasks'
@@ -64,7 +82,7 @@ const Prioritize = React.createClass({
     },
     
     addTask() {        
-      this.toggleVisibility(); t
+      this.toggleVisibility(); 
       this.refs.navigator.push({
           component:'AddTask',
           name: 'add'
@@ -78,11 +96,18 @@ const Prioritize = React.createClass({
       });
     },
     
+    viewAll() {
+            this.refs.navigator.push({
+                component:'ViewAll',
+                name:'viewAll'
+            });
+    },
+    
     view() {
-        this.refs.navigator.push({
-            component: 'ViewTask',
-            name:'view'
-        });
+            this.refs.navigator.push({
+                component: 'ViewTask',
+                name:'view'
+            });
     },
     
     renderScene(route,navigator) {
@@ -97,10 +122,13 @@ const Prioritize = React.createClass({
                 return <ViewTask/>;
             case 'add':
                 return <AddTask/>
+            case 'viewAll':
+                return <ViewAll/>;
         }    
     },
         
     toggleAdd() {
+        console.log('this.state.show',this.state.show);
         if (this.state.show) {
             return (
                 <TouchableHighlight
@@ -125,8 +153,42 @@ const Prioritize = React.createClass({
                      renderScene={this.renderScene}>
                 </Navigator> 
                   {this.toggleAdd()}
+                  {this.state.dataLength ? this.nav() : null}
             </View>
          );
+    },
+        
+    nav() {
+        return (
+             <View style={styles.navWrapper}>
+                <TouchableHighlight 
+                 activeOpacity={0.5}
+                 underlayColor={'transparent'}
+                 onPress={() => this.view()}>
+                    <Image
+                        source={require('./../../images/add.png')}
+                        style={styles.image}>
+                    </Image>
+                </TouchableHighlight>
+                <Text style={styles.text}> Current Task </Text>
+                <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
+                    onPress={() => this.addTask()}>
+                    <Image
+                        source={require('./../../images/list.png')}
+                        style={styles.image}/>
+                </TouchableHighlight>
+                <Text style={styles.text}> Add Task </Text>
+                
+                <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
+                    onPress={() => this.viewAll()}>
+                    <Text> View All </Text>
+                </TouchableHighlight>
+                </View>
+        );
     },
         
     dataAvailable() {
@@ -137,17 +199,8 @@ const Prioritize = React.createClass({
                      initialRoute={{name:'view'}}
                      renderScene={this.renderScene}>
                 </Navigator>
-            
-                <TouchableHighlight 
-                 onPress={() => this.view()}>
-                    <Text>Current Task</Text>
-                </TouchableHighlight>
-                <TouchableHighlight
-                    onPress={() => this.addTask()}>
-                    <Text> Add Task </Text>
-                </TouchableHighlight>
+                {this.nav()}
             </View>
-                
         );
     },
             
@@ -163,6 +216,7 @@ const Prioritize = React.createClass({
     },
             
     render() {
+        this.getData();
         if (!this.state.loaded) {
             return this.loading();
         }
@@ -177,7 +231,6 @@ const Prioritize = React.createClass({
 var styles = StyleSheet.create({
     container: {
      flex:1,
-     backgroundColor:'#D1C4E9'
     },
     noDataButton: {
         marginBottom:340,
@@ -188,7 +241,27 @@ var styles = StyleSheet.create({
         borderRadius:10,
         width:70,
         marginLeft:150
+    },
+    navWrapper: {
+        flex:-1,
+        flexDirection:'row',
+        justifyContent:'center',
+        borderTopColor:'#D1C4E9',
+        borderTopWidth:2,
+        backgroundColor:'#FFFFFF',
+        height:40
+    },
+    
+    image: {
+        flexDirection:'row',
+        width:30,
+        height:30
+    },
+    text: {
+        fontSize:12,
+        color: '#B6B6B6'
     }
+    
 });
 
 export default Prioritize;

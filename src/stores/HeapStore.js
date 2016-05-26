@@ -19,6 +19,7 @@ var HeapStore = Reflux.createStore({
        this.listenTo(HeapActions.push,this.push);
        this.listenTo(HeapActions.getAllTasks,this.getAllTasks);
        this.listenTo(HeapActions.pop, this.pop);
+       this.listenTo(HeapActions.deleteTask,this.deleteTask);
        this.listenTo(HeapActions.popSuccess, this.popSuccess);
        this.listenTo(HeapActions.deleteAll, this.deleteAll);
        this.listenTo(HeapActions.viewCurrentTask, this.viewCurrentTask);
@@ -102,6 +103,12 @@ var HeapStore = Reflux.createStore({
             cb();
         }
     },
+    deleteTask(task,cb) {
+        this.tasks = this.heap.deleteATask(this.tasks,task);   
+        this.emit();
+        cb(this.tasks);
+    },
+    
     getAllTasks(cb) {
         this.tasks = this.heap.upHeap(this.tasks);
         cb(this.tasks);

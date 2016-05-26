@@ -5,7 +5,7 @@ import Reflux from 'reflux';
 import { HeapActions } from './../../actions';
 import HeapStore from './../../stores/HeapStore';
 import RewardStore from './../../stores/RewardStore';
-
+import Task from '../Tasks';
 import {
     Animated,
     Alert,
@@ -73,7 +73,7 @@ var ViewTask = React.createClass({
     noData() {
       return(
         <View style={styles.container}>
-          <Text > Completed all tasks!</Text>
+          <Task/>
           </View>
       );  
     },

@@ -13,7 +13,7 @@ var Task = React.createClass({
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.mText}> No tasks yet!  </Text>
+                <Text style={styles.mText}> No tasks in queue...  </Text>
             </View>
         );
     }
@@ -33,7 +33,7 @@ var styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         fontFamily: 'Cochin',
-        color: '#212121',
+        color: '#B6B6B6',
         marginTop:70
     }
 });

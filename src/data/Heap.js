@@ -30,6 +30,13 @@ class Heap {
             return b.priority - a.priority;
         });
     }
+    
+    deleteATask(taskArray,theTask) {
+        console.log(taskArray,'the task array in delete a task', theTask);
+        return taskArray.filter(function(a,i) {
+            return a.entry !== theTask;
+        });
+    }
     /*upHeap(childIndex,childNode,taskArray) {
         console.log('ba4', taskArray);
         

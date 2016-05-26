@@ -70,6 +70,14 @@ const AddTask = React.createClass({
        }
    },
     
+   checkUpdate() {
+        if (this.state.recentlyAdded) {
+            return true;
+        } else {
+            return false;
+        }
+   },
+    
    pushTask() {
        if (this.state.task) {
            this.getPriority();
@@ -117,7 +125,6 @@ const AddTask = React.createClass({
 var styles = StyleSheet.create({
     container: {
         flex:1,
-        backgroundColor: '#D1C4E9'
     },
     textCenter: {
         marginLeft:20,
