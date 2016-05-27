@@ -1,7 +1,7 @@
 //@flow
 
 'use strict';
-
+import Immutable from 'immutable';
 import Heap from './../data/Heap';
 import PriorityQueue from './../data/Pq';
 import {HeapActions} from './../actions';
@@ -14,6 +14,7 @@ const KEY = 'toDoKey';
 var HeapStore = Reflux.createStore({
    init() {
        this.tasks = [];
+       this.currentState = Immutable.fromJS([]);
        this.heap = new Heap();
        this.loadHeap().done();
        this.listenTo(HeapActions.push,this.push);
@@ -29,14 +30,14 @@ var HeapStore = Reflux.createStore({
    }, 
     
    async loadHeap() {
+       console.log('immutable', this.currentState);
      try {
          var task = await AsyncStorage.getItem(KEY);
          console.log(task,'t')
          if (task != null) {            
-            this.tasks = JSON.parse(task).map((obj) => {
+            this.tasks = JSON.parse(task).map((obj,i) => {
                 return PriorityQueue.fromObject(obj);
             });
-            
             this.emit();
          } else {
              console.info(`${KEY} not found.`);
@@ -121,7 +122,7 @@ var HeapStore = Reflux.createStore({
     emit() {
         this.writeHeap().done();
         this.trigger(this.tasks);
-        (console.log('hi',this.tasks))
+        (console.log('hi in emit',this.tasks))
     }
 });
 

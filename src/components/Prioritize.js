@@ -37,8 +37,28 @@ const Prioritize = React.createClass({
     componentWillMount() {
         this.renderInitialRoute();
         HeapStore.emit();    
+    },    
+    
+    componentDidMount() {
+        this.listenTo(HeapStore,
+                     this.onChange,
+                     this.onChange);
     },
-
+    
+     onChange(data) {
+         console.log('i changed',data);
+        if (data.length) {
+            this.setState({dataAvail:true,dataLength:data.length});
+        } else {
+            this.setState({dataAvail:false,dataLength:0,initRoute:'tasks',show:true});
+        }
+    }, 
+    
+    shouldComponentUpdate(nextProps,nextState) {
+        console.log('the stuff',nextProps,nextState);
+        return true;
+    },
+    
     renderInitialRoute() {
       var _this = this;
       HeapActions.viewCurrentTask(function(result) {
@@ -216,7 +236,7 @@ const Prioritize = React.createClass({
     },
             
     render() {
-        this.getData();
+    //    this.getData();
         if (!this.state.loaded) {
             return this.loading();
         }
