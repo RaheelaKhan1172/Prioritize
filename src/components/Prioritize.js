@@ -35,14 +35,17 @@ const Prioritize = React.createClass({
     },
     
     componentWillMount() {
-        this.renderInitialRoute();
+        console.log('whats first');
         HeapStore.emit();    
+        
+
     },    
     
     componentDidMount() {
+        this.renderInitialRoute();
         this.listenTo(HeapStore,
                      this.onChange,
-                     this.onChange);
+                     this.onChange); 
     },
     
      onChange(data) {
@@ -181,32 +184,35 @@ const Prioritize = React.createClass({
     nav() {
         return (
              <View style={styles.navWrapper}>
+                <Text style={styles.text}> Current Task </Text>
                 <TouchableHighlight 
                  activeOpacity={0.5}
                  underlayColor={'transparent'}
                  onPress={() => this.view()}>
                     <Image
-                        source={require('./../../images/add.png')}
+                        source={require('./../../images/list.png')}
                         style={styles.image}>
                     </Image>
                 </TouchableHighlight>
-                <Text style={styles.text}> Current Task </Text>
+                <Text style={styles.text}> Add Task </Text>
                 <TouchableHighlight
                     activeOpacity={0.5}
                     underlayColor={'transparent'}
                     onPress={() => this.addTask()}>
                     <Image
-                        source={require('./../../images/list.png')}
+                        source={require('./../../images/addItem.png')}
                         style={styles.image}/>
                 </TouchableHighlight>
-                <Text style={styles.text}> Add Task </Text>
                 
+                <Text style={styles.text}> View All </Text>
                 <TouchableHighlight
                     activeOpacity={0.5}
                     underlayColor={'transparent'}
                     onPress={() => this.viewAll()}>
-                    <Text> View All </Text>
-                </TouchableHighlight>
+                    <Image
+                        source={require('./../../images/viewall.png')}
+                        style={styles.image}/>
+                    </TouchableHighlight>
                 </View>
         );
     },
@@ -217,7 +223,8 @@ const Prioritize = React.createClass({
                 <Navigator
                      ref='navigator'
                      initialRoute={{name:'view'}}
-                     renderScene={this.renderScene}>
+                     renderScene={this.renderScene}
+                     configureScene={(route,routeStack) => Navigator.SceneConfigs.FadeAndroid}>
                 </Navigator>
                 {this.nav()}
             </View>
@@ -256,7 +263,7 @@ var styles = StyleSheet.create({
         marginBottom:340,
         alignItems: 'center',
         justifyContent:'center',
-        borderColor:'#9C27B0',
+        borderColor:'#03A9F4',
         borderWidth:1,
         borderRadius:10,
         width:70,
@@ -266,18 +273,22 @@ var styles = StyleSheet.create({
         flex:-1,
         flexDirection:'row',
         justifyContent:'center',
-        borderTopColor:'#D1C4E9',
-        borderTopWidth:2,
+        borderTopColor:'#B6B6B6',
+        opacity:0.7,
+        borderTopWidth:1,
         backgroundColor:'#FFFFFF',
         height:40
     },
     
     image: {
-        flexDirection:'row',
+        marginTop:5,
         width:30,
         height:30
     },
     text: {
+        textAlign:'center',
+        marginTop:5,
+        marginLeft:0,
         fontSize:12,
         color: '#B6B6B6'
     }

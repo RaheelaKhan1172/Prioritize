@@ -50,7 +50,8 @@ const AddTask = React.createClass({
        });
        Animated.timing(
         this.state.fadeAnim,
-        {toValue:1}
+        {toValue:1,
+        duration:3000}
        ).start();
        
        console.log('hi in alert',this.state.recentlyAdded);
@@ -103,15 +104,18 @@ const AddTask = React.createClass({
                      onChangeText={ (text) => this.setState({task:text})} />
                 <Text style={styles.textCenter}> Set Priority </Text>
                 <Slider
+                  style={styles.slider}
                   minimumValue={0}
                   maximumValue={10}
-                  maximumTrackTintColor={'#512DA8'}
-                  minimumTrackTintColor={'#E040FB'}
+                  maximumTrackTintColor={'#B3E5FC'}
+                  minimumTrackTintColor={'#D32F2F'}
                   step={1}
                   {...this.props}
                   onValueChange={ (value) => this.setState({priority:value})} 
                   onSlidingComplete={(value) => this.setState({priority:value})} /> 
                    <TouchableHighlight
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
                     onPress={() =>  this.pushTask()}> 
                   <Image
                     source={require('./../../../images/plus.png')}
@@ -127,18 +131,21 @@ var styles = StyleSheet.create({
         flex:1,
     },
     textCenter: {
-        marginLeft:20,
-        textDecorationLine:'underline',
-        textDecorationColor:'#B6B6B6',
-        color:'#FFFFFF',
+        marginLeft:10,
+
+        color:'#727272',
         marginBottom:10,
         fontSize:20
     },
     form: {
+        width:366,
         height:40,
         borderRadius:20,
-        borderColor: '#512DA8',
+        borderColor: '#03A9F4',
         borderWidth:1
+    },
+    slider: {
+        width:366
     }
 });
 

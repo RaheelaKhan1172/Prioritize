@@ -1,7 +1,6 @@
 //@flow
 
 'use strict';
-import Immutable from 'immutable';
 import Heap from './../data/Heap';
 import PriorityQueue from './../data/Pq';
 import {HeapActions} from './../actions';
@@ -9,12 +8,11 @@ import Reflux from 'reflux';
 
 import React from 'react';
 import { AsyncStorage } from 'react-native';
-const KEY = 'toDoKey';
+const KEY = 'PKey';
 
 var HeapStore = Reflux.createStore({
    init() {
        this.tasks = [];
-       this.currentState = Immutable.fromJS([]);
        this.heap = new Heap();
        this.loadHeap().done();
        this.listenTo(HeapActions.push,this.push);
@@ -22,20 +20,19 @@ var HeapStore = Reflux.createStore({
        this.listenTo(HeapActions.pop, this.pop);
        this.listenTo(HeapActions.deleteTask,this.deleteTask);
        this.listenTo(HeapActions.popSuccess, this.popSuccess);
-       this.listenTo(HeapActions.deleteAll, this.deleteAll);
+     //  this.listenTo(HeapActions.deleteAll, this.deleteAll);
        this.listenTo(HeapActions.viewCurrentTask, this.viewCurrentTask);
        this.listenTo(HeapActions.viewNextTasks, this.viewNextTasks);
-       this.emit();
+    //   this.emit();
        
    }, 
     
    async loadHeap() {
-       console.log('immutable', this.currentState);
      try {
          var task = await AsyncStorage.getItem(KEY);
          console.log(task,'t')
          if (task != null) {            
-            this.tasks = JSON.parse(task).map((obj,i) => {
+            this.tasks = JSON.parse(task).map((obj) => {
                 return PriorityQueue.fromObject(obj);
             });
             this.emit();
@@ -50,15 +47,17 @@ var HeapStore = Reflux.createStore({
    async writeHeap() {
        try {
            await AsyncStorage.setItem(KEY,JSON.stringify(this.tasks));
+           console.log(AsyncStorage,'the storage');
        } catch (error) {
            console.error('Async Storage error: ', error.message);
        }
     },
     
-    deleteAll() {
+ /*   deleteAll() {
+        console.log('o jappen');
         this.tasks=[];
         this.emit();
-    },
+    }, */
     
     push(entry,priority) {
         if (entry === 'undefined') {throw 'No taask inserted';}

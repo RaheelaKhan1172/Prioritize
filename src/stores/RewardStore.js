@@ -2,7 +2,7 @@
 
 'use strict';
 
-import Reward from './../data/Reward';
+/*import Reward from './../data/Reward';
 
 import {HeapActions} from './../actions';
 import Reflux from 'reflux';
@@ -20,6 +20,7 @@ var RewardStore = Reflux.createStore({
     
     async load() {
         try {
+            console.log('storeage',AsyncStorage.getAllKeys());
             var result = await AsyncStorage.getItem(REWARD);
             console.log(result,'result in reward store');
             if (result !== null) {
@@ -56,7 +57,6 @@ var RewardStore = Reflux.createStore({
         console.log('new handle update', this.currentStreak.total);
         this.emit();
     },
-    /* @ bool checkIfStreak(function) */
     checkIfStreak(cb) {
         console.log('did i happen?');
         if(cb) {
@@ -81,4 +81,4 @@ var RewardStore = Reflux.createStore({
     }
 });
 
-export default RewardStore;
+export default RewardStore; */

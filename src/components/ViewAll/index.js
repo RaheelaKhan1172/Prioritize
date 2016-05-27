@@ -13,7 +13,8 @@ import {
     ListView,
     Text,
     TouchableHighlight,
-    Image
+    Image,
+    Animated
 } from 'react-native';
 
 var ViewAll = React.createClass({
@@ -24,7 +25,8 @@ var ViewAll = React.createClass({
                 rowHasChanged: (row1,row2) => row1 !== row2
             }),
             loaded:false,
-            dataAvail:false
+            dataAvail:false,
+            anim: new Animated.Value(0)
         }
     },
     
@@ -84,6 +86,9 @@ var ViewAll = React.createClass({
                 <Text style={styles.textTask}> {task.entry} </Text>
             <View style={styles.rightContainer}>
                 <TouchableHighlight
+                    style={styles.button}
+                    activeOpacity={0.5}
+                    underlayColor={'transparent'}
                     onPress={() => this.deleteTask(task.entry)}>
                     <Image
                         source={require('./../../../images/cross.png')}
@@ -96,6 +101,7 @@ var ViewAll = React.createClass({
     },
         
     noData() {
+        console.log('the props' ,this.props.button,this.props);
         return (
             <Task/>
           

@@ -4,7 +4,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import { HeapActions } from './../../actions';
 import HeapStore from './../../stores/HeapStore';
-import RewardStore from './../../stores/RewardStore';
+//import RewardStore from './../../stores/RewardStore';
 import Task from '../Tasks';
 import {
     Animated,
@@ -18,7 +18,7 @@ import {
 
 var ViewTask = React.createClass({
     
-    mixins: [Reflux.connect(RewardStore,'rewardStore')],
+  //  mixins: [Reflux.connect(RewardStore,'rewardStore')],
     
     getInitialState() {
         return {
@@ -29,9 +29,10 @@ var ViewTask = React.createClass({
 
         };
     },
+    currentStreak:0,
     
     componentWillMount() {
-      RewardStore.emit();
+   //   RewardStore.emit();
       this.viewTask();
     },
   
@@ -52,13 +53,16 @@ var ViewTask = React.createClass({
     donePop() {
         var _this = this;
         HeapActions.popSuccess();
-        
-        RewardStore.popSuccess();
+        ++this.currentStreak;
+        if (this.currentStreak % 5 === 0) {
+            alert('WOHOO! You are on fiya!');
+        } 
+     /*   RewardStore.popSuccess();
         RewardStore.checkIfStreak(function(res) {
             if (res) {
                 alert('WOHOO! You are on fiya!');
             }
-        });
+        }); */
         _this.viewTask();
     },
     
@@ -86,6 +90,8 @@ var ViewTask = React.createClass({
                 <Text style={styles.mainText}> {this.state.currentTask}</Text>
                 <View style={styles.left}>
                     <TouchableHighlight
+                        activeOpacity={0.5}
+                        underlayColor={'transparent'}
                         onPress={this.donePop}> 
                         <Image
                         source={require('./../../../images/success.png')}
@@ -93,9 +99,11 @@ var ViewTask = React.createClass({
                     </TouchableHighlight>
                 <View style={styles.horizontal}>
                     <TouchableHighlight
+                        activeOpacity={0.5}
+                        underlayColor={'transparent'}
                         onPress={this.deletePop}> 
                         <Image 
-                            source={require('./../../../images/circle.png')}
+                            source={require('./../../../images/error.png')}
                             style={{width:40,height:40}} />
                     </TouchableHighlight>
                  </View>
@@ -134,11 +142,9 @@ var styles = StyleSheet.create({
     },
     headline: {
         marginTop:45,
-        color:'#FFFFFF',
+        color:'#727272',
         fontSize:15,
         textAlign:'left',
-        textDecorationLine: 'underline',
-        textDecorationColor: '#B6B6B6'
     },
 });
 
