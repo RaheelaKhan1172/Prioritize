@@ -69,7 +69,8 @@ var ViewTask = React.createClass({
     deletePop() {
         var _this = this;
         HeapActions.pop(function(res) {
-            alert('Deleted ' + res);
+            res = JSON.parse(res);
+            alert('Deleted ' + res.entry);
             _this.viewTask();
         });
     },

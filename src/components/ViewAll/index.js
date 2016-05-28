@@ -14,7 +14,6 @@ import {
     Text,
     TouchableHighlight,
     Image,
-    Animated
 } from 'react-native';
 
 var ViewAll = React.createClass({
@@ -26,7 +25,6 @@ var ViewAll = React.createClass({
             }),
             loaded:false,
             dataAvail:false,
-            anim: new Animated.Value(0)
         }
     },
     
@@ -63,9 +61,9 @@ var ViewAll = React.createClass({
             </View>
         );
     },
+
     deleteTask(currentTask) {
         var _this = this;
-        console.log('hi',currentTask);    
         HeapActions.deleteTask(currentTask,function(result) {
             console.log('after delete', result);
             if (result.length) {
@@ -78,9 +76,8 @@ var ViewAll = React.createClass({
             }
         });
     },
-    
+
     renderTask(task) {
-        console.log('entry',task);
         return (
             <View style={styles.container}>
                 <Text style={styles.textTask}> {task.entry} </Text>
@@ -94,17 +91,14 @@ var ViewAll = React.createClass({
                         source={require('./../../../images/cross.png')}
                         style={{width:10,height:10,marginTop:10}} />
                 </TouchableHighlight>
-                
             </View>
             </View>
         );    
     },
-        
+
     noData() {
-        console.log('the props' ,this.props.button,this.props);
         return (
             <Task/>
-          
         );
     },
         

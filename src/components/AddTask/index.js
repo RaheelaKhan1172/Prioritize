@@ -39,20 +39,29 @@ const AddTask = React.createClass({
            priority: this.props.value,
            intPriority: '',
            recentlyAdded: '',
-           fadeAnim: new Animated.Value(0)
+           fadeAnim: new Animated.Value(0),
+           showX:false,
        }
    },
    
    alertSuccess() {
-       
        this.setState({
-           recentlyAdded: "Added '" + this.state.task + "' and it is  " + this.state.intPriority + ' to do.'
+           recentlyAdded: "Task '" + this.state.task + "' in queue and it has " + this.state.intPriority,
+           showX:true
        });
+       
        Animated.timing(
         this.state.fadeAnim,
-        {toValue:1,
-        duration:3000}
+        {toValue:1}
        ).start();
+       
+     /* var _this = this;
+       
+      setTimeout(function() {
+          Animated.timing(
+          _this.state.fadeAnim,
+          {toValue:0}).start();
+      },5000);   */
        
        console.log('hi in alert',this.state.recentlyAdded);
    },
@@ -63,11 +72,11 @@ const AddTask = React.createClass({
        
    getPriority() {
        if (+this.state.priority < 5) {
-           this.state.intPriority = 'not urgent';
+           this.state.intPriority = 'low priority.';
        }  else if (+this.state.priority < 7) {
-           this.state.intPriority = 'a bit urgent';
+           this.state.intPriority = 'medium priority.';
        } else {
-           this.state.intPriority = 'really, really urgent';
+           this.state.intPriority = 'high priority.';
        }
    },
     
@@ -88,14 +97,23 @@ const AddTask = React.createClass({
        } 
    },
     
+   remove() {
+     Animated.timing(this.state.fadeAnim,{
+         toValue:0
+     }).start();  
+   },
+    
    render() {
        return(
              <View style={styles.container}>
-                <Animated.Text
-                 style={{opacity:this.state.fadeAnim,color:'#B6B6B6',marginBottom:40,marginTop:45}}>
-                    {this.state.recentlyAdded} 
-                 </Animated.Text>
-             
+                <TouchableHighlight
+                underlayColor={'transparent'}
+                onPress={() => this.remove()}>
+                    <Animated.Text
+                     style={{opacity:this.state.fadeAnim,color:'#B6B6B6',marginBottom:40,marginTop:45}}>
+                        {this.state.recentlyAdded} 
+                     </Animated.Text>
+                </TouchableHighlight>
                 <Text style={styles.textCenter}> Add a task </Text>
                 <TextInput
                      ref={component => this._textInput = component}
