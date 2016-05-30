@@ -75,6 +75,7 @@ const Prioritize = React.createClass({
           }
       });
     },
+    
     getData() {
         var _this = this;
         HeapActions.viewCurrentTask(function(result) {
@@ -97,6 +98,7 @@ const Prioritize = React.createClass({
     },
     
     main() {
+        console.log('hmhmhmhm');
         this.toggleVis();
         this.refs.navigator.push({
             component: 'Task',
@@ -108,7 +110,8 @@ const Prioritize = React.createClass({
       this.toggleVisibility(); 
       this.refs.navigator.push({
           component:'AddTask',
-          name: 'add'
+          name: 'add',
+          
       });
     },
     
@@ -132,7 +135,6 @@ const Prioritize = React.createClass({
                 name:'view'
             });
     },
-    
     renderScene(route,navigator) {
         console.log('route', route, route.name);
         switch(route.name) {
@@ -159,21 +161,22 @@ const Prioritize = React.createClass({
                     underlayColor={'transparent'}
                     style={styles.noDataButton}
                     onPress={() => this.addTask()}>
-                    <Text> Add Task </Text>
+                    <Text style={styles.textS}> Add Task </Text>
                 </TouchableHighlight>
             );
         } else {
             return null;
         }
     },
-    
+                                     
     noData() {
         return (
            <View style={styles.container}>
                 <Navigator
                      ref='navigator'
                      initialRoute={{name:'tasks'}}
-                     renderScene={this.renderScene}>
+                     renderScene={this.renderScene}
+                     configureScene={(route,routeStack) => Navigator.SceneConfigs.FadeAndroid}>
                 </Navigator> 
                   {this.toggleAdd()}
                   {this.state.dataLength ? this.nav() : null}
@@ -264,10 +267,12 @@ var styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent:'center',
         borderColor:'#03A9F4',
+        backgroundColor:'#03A9F4',
         borderWidth:1,
-        borderRadius:10,
-        width:70,
-        marginLeft:150
+        borderRadius:5,
+        width:250,
+        marginLeft:70,
+        height:30
     },
     navWrapper: {
         flex:-1,
@@ -277,7 +282,7 @@ var styles = StyleSheet.create({
         opacity:0.7,
         borderTopWidth:1,
         backgroundColor:'#FFFFFF',
-        height:40
+        height:50
     },
     
     image: {
@@ -291,6 +296,9 @@ var styles = StyleSheet.create({
         marginLeft:0,
         fontSize:12,
         color: '#B6B6B6'
+    },
+    textS: {
+        color:'white'
     }
     
 });

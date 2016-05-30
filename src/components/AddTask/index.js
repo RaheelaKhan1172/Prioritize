@@ -96,7 +96,7 @@ const AddTask = React.createClass({
            HeapActions.push(this.state.task,this.state.priority);
        } 
    },
-    
+
    remove() {
      Animated.timing(this.state.fadeAnim,{
          toValue:0
@@ -133,11 +133,12 @@ const AddTask = React.createClass({
                   onSlidingComplete={(value) => this.setState({priority:value})} /> 
                    <TouchableHighlight
                     activeOpacity={0.5}
+                    style={styles.button}
                     underlayColor={'transparent'}
                     onPress={() =>  this.pushTask()}> 
                   <Image
                     source={require('./../../../images/plus.png')}
-                    style={{width:40 ,height:40,marginLeft:300,padding:0}} />
+                    style={{width:40 ,height:40,marginLeft:300,padding:0,marginTop:10}} />
                 </TouchableHighlight>
              </View>    
         );
@@ -147,6 +148,7 @@ const AddTask = React.createClass({
 var styles = StyleSheet.create({
     container: {
         flex:1,
+        marginTop:80
     },
     textCenter: {
         marginLeft:10,
@@ -156,15 +158,19 @@ var styles = StyleSheet.create({
         fontSize:20
     },
     form: {
-        width:366,
+        width:358,
         height:40,
         borderRadius:20,
         borderColor: '#03A9F4',
         borderWidth:1
     },
     slider: {
-        width:366
+        width:369
+    },
+    button: {
+        padding:0,
     }
+
 });
 
 module.exports = AddTask;

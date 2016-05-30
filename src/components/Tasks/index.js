@@ -27,14 +27,14 @@ var styles = StyleSheet.create({
         alignItems: 'center',
     },
     mText: {
-        fontSize:40,
+        fontSize:44,
         fontStyle:'normal',
         textAlign:'center',
         alignItems:'center',
         justifyContent:'center',
         fontFamily: 'Cochin',
         color: '#B6B6B6',
-        marginTop:70
+        marginTop:95
     }
 });
 

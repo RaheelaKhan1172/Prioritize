@@ -14,6 +14,7 @@ import {
     Text,
     TouchableHighlight,
     Image,
+    Animated
 } from 'react-native';
 
 var ViewAll = React.createClass({
@@ -25,6 +26,7 @@ var ViewAll = React.createClass({
             }),
             loaded:false,
             dataAvail:false,
+            anim: new Animated.Value(0)
         }
     },
     
@@ -76,22 +78,42 @@ var ViewAll = React.createClass({
             }
         });
     },
-
+    
+    fix() {
+        if (this.state.anim._value) {
+          Animated.timing(this.state.anim,{
+              toValue:0,
+        }).start();  
+        } else {
+            Animated.timing(this.state.anim, {
+                toValue:1,
+            }).start();
+        }
+    },
+    
     renderTask(task) {
         return (
             <View style={styles.container}>
-                <Text style={styles.textTask}> {task.entry} </Text>
-            <View style={styles.rightContainer}>
+                <View style={styles.rightContainer}>
                 <TouchableHighlight
                     style={styles.button}
                     activeOpacity={0.5}
                     underlayColor={'transparent'}
-                    onPress={() => this.deleteTask(task.entry)}>
-                    <Image
+                    onPress={() => this.fix()}>
+                    <View>
+                    <Text style={styles.textTask}> {task.entry} </Text>
+                    <TouchableHighlight
+                        activeOpacity={0.5}
+                        underlayColor={'transparent'}
+                        style={styles.rightContainer}
+                        onPress={() => this.deleteTask(task.entry)}>
+                    <Animated.Image
                         source={require('./../../../images/cross.png')}
-                        style={{width:10,height:10,marginTop:10}} />
+                        style={{opacity:this.state.anim,width:15,height:15,marginLeft:2}} />
+                    </TouchableHighlight>
+                    </View>
                 </TouchableHighlight>
-            </View>
+                </View>
             </View>
         );    
     },
