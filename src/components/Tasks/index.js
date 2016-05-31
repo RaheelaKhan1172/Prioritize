@@ -8,6 +8,7 @@ import {
     Text
 } from 'react-native';
 
+var WindowCheck = require('../WindowChecks');
 
 var Task = React.createClass({
     render() {
@@ -21,20 +22,22 @@ var Task = React.createClass({
 
 
 var styles = StyleSheet.create({
+    
     container: {
         flex:1,
         justifyContent: 'center',
         alignItems: 'center',
     },
+    
     mText: {
-        fontSize:44,
+        fontSize:WindowCheck.fontSize(),
         fontStyle:'normal',
         textAlign:'center',
         alignItems:'center',
         justifyContent:'center',
         fontFamily: 'Cochin',
         color: '#B6B6B6',
-        marginTop:95
+        marginTop:WindowCheck.marginTop()
     }
 });
 

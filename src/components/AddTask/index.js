@@ -19,6 +19,7 @@ import PriorityQueue from './../../data/Pq';
 import Heap from './../../data/Heap';
 import ViewTask from '../ViewTasks';
 
+const WindowCheck = require('../WindowChecks');
 
 const AddTask = React.createClass({
     
@@ -138,7 +139,7 @@ const AddTask = React.createClass({
                     onPress={() =>  this.pushTask()}> 
                   <Image
                     source={require('./../../../images/plus.png')}
-                    style={{width:40 ,height:40,marginLeft:300,padding:0,marginTop:10}} />
+                    style={{width:40 ,height:40,marginLeft:WindowCheck.getImageProp(),padding:0,marginTop:10}} />
                 </TouchableHighlight>
              </View>    
         );
@@ -158,14 +159,14 @@ var styles = StyleSheet.create({
         fontSize:20
     },
     form: {
-        width:358,
+        width:WindowCheck.getFormWidth(),
         height:40,
         borderRadius:20,
         borderColor: '#03A9F4',
         borderWidth:1
     },
     slider: {
-        width:369
+        width:WindowCheck.getFormWidth()
     },
     button: {
         padding:0,

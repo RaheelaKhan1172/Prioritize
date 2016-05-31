@@ -6,6 +6,7 @@ import { HeapActions } from './../../actions';
 import HeapStore from './../../stores/HeapStore';
 //import RewardStore from './../../stores/RewardStore';
 import Task from '../Tasks';
+
 import {
     Animated,
     Alert,

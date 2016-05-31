@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import Reflux from 'reflux';
 import { HeapActions } from './../actions';
 import HeapStore from './../stores/HeapStore';
+
 import {
     StyleSheet,
     Text,
@@ -19,6 +20,8 @@ import Task from './Tasks';
 import ViewTask from './ViewTasks';
 import AddTask from './AddTask';
 import ViewAll from './ViewAll';
+
+const WindowCheck = require('./WindowChecks');
 
 const Prioritize = React.createClass({
     
@@ -36,9 +39,7 @@ const Prioritize = React.createClass({
     
     componentWillMount() {
         console.log('whats first');
-        HeapStore.emit();    
-        
-
+        HeapStore.emit();   
     },    
     
     componentDidMount() {
@@ -47,9 +48,9 @@ const Prioritize = React.createClass({
                      this.onChange,
                      this.onChange); 
     },
-    
-     onChange(data) {
-         console.log('i changed',data);
+        
+    onChange(data) {
+        console.log('i changed',data);
         if (data.length) {
             this.setState({dataAvail:true,dataLength:data.length});
         } else {
@@ -68,7 +69,7 @@ const Prioritize = React.createClass({
           console.log(result,'res', result);
           if (result) {
               console.log('ho hey')
-            _this.setState({initRoute:'view', loaded:true,dataAvail:true,dataLength:result.length});          
+            _this.setState({initRoute:'view', loaded:true,dataAvail:true,dataLength:result.length});
           } else {
               _this.setState({initRoute:'tasks', loaded:true,dataAvail:false});
               _this.toggleVis();
@@ -262,18 +263,20 @@ var styles = StyleSheet.create({
     container: {
      flex:1,
     },
+    
     noDataButton: {
-        marginBottom:340,
+        marginBottom:WindowCheck.getButtonMargin(),
         alignItems: 'center',
         justifyContent:'center',
         borderColor:'#03A9F4',
         backgroundColor:'#03A9F4',
         borderWidth:1,
         borderRadius:5,
-        width:250,
-        marginLeft:70,
+        marginLeft:WindowCheck.getButtonLeftMargin(),
+        width:WindowCheck.buttonWidth(),
         height:30
     },
+    
     navWrapper: {
         flex:-1,
         flexDirection:'row',
@@ -290,6 +293,7 @@ var styles = StyleSheet.create({
         width:30,
         height:30
     },
+    
     text: {
         textAlign:'center',
         marginTop:5,
@@ -297,6 +301,7 @@ var styles = StyleSheet.create({
         fontSize:12,
         color: '#B6B6B6'
     },
+    
     textS: {
         color:'white'
     }
