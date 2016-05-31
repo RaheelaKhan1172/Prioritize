@@ -1,17 +1,31 @@
 const Dimensions = require('Dimensions');
 
-export function isOld() {
+function isOld() {
     let window = Dimensions.get('window');
     console.log('wind',window)
     return (window.height * window.scale) < 1300;
 }
     
-export function iPhone5() {
+function iPhone5() {
     let window = Dimensions.get('window');
     console.log('otha one,', window);
     return (window.height * window.scale) < 1300;
 }
-    
+
+function iPhone6s() {
+    let window = Dimensions.get('window');
+    console.log(window,'in iphone6')
+    return (window.height* window.scale) > 1920
+}
+
+
+export function marginNeeded() {
+    if (iPhone6s()) {
+        return 10;
+    } else {
+        return 1;
+    }
+}
 export function fontSize() {
         if (isOld()) {
             return 28;
@@ -54,7 +68,7 @@ export function getFormWidth() {
     
 export function getImageProp() {
     if (isOld()) {
-        return 140;
+        return 170;
     } else if(iPhone5()) {
         return 250;
     } else {
@@ -62,7 +76,7 @@ export function getImageProp() {
     }
 }
     
-    export function getButtonMargin() {
+export function getButtonMargin() {
         if (isOld()) {
             return 200;
         } else if (iPhone5()) {
@@ -70,14 +84,16 @@ export function getImageProp() {
         } else {
             return 340;
         }
-    }
+}
         
 export function getButtonLeftMargin() {
     if (isOld()) {
-        return 80;
+        return 85;
     } else if (iPhone5()) {
-        return 60;
-    } else {
+        return 86;
+    } else  if (iPhone6s()){
         return 90;
+    } else {
+        return 65;
     }
 }

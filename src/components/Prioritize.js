@@ -38,7 +38,6 @@ const Prioritize = React.createClass({
     },
     
     componentWillMount() {
-        console.log('whats first');
         HeapStore.emit();   
     },    
     
@@ -50,7 +49,6 @@ const Prioritize = React.createClass({
     },
         
     onChange(data) {
-        console.log('i changed',data);
         if (data.length) {
             this.setState({dataAvail:true,dataLength:data.length});
         } else {
@@ -59,16 +57,13 @@ const Prioritize = React.createClass({
     }, 
     
     shouldComponentUpdate(nextProps,nextState) {
-        console.log('the stuff',nextProps,nextState);
         return true;
     },
     
     renderInitialRoute() {
       var _this = this;
       HeapActions.viewCurrentTask(function(result) {
-          console.log(result,'res', result);
           if (result) {
-              console.log('ho hey')
             _this.setState({initRoute:'view', loaded:true,dataAvail:true,dataLength:result.length});
           } else {
               _this.setState({initRoute:'tasks', loaded:true,dataAvail:false});
@@ -80,9 +75,7 @@ const Prioritize = React.createClass({
     getData() {
         var _this = this;
         HeapActions.viewCurrentTask(function(result) {
-            console.log('hey in here');
             if (result) {
-                console.log('result in here');
                 _this.setState({dataAvail:true,dataLength:result.length});
             } else {
                 _this.setState({dataAvail:false,dataLength:0,initRoute:'tasks',show:true});
@@ -99,7 +92,6 @@ const Prioritize = React.createClass({
     },
     
     main() {
-        console.log('hmhmhmhm');
         this.toggleVis();
         this.refs.navigator.push({
             component: 'Task',
@@ -137,7 +129,6 @@ const Prioritize = React.createClass({
             });
     },
     renderScene(route,navigator) {
-        console.log('route', route, route.name);
         switch(route.name) {
             case 'tasks':
                 return <Task 
@@ -154,7 +145,6 @@ const Prioritize = React.createClass({
     },
         
     toggleAdd() {
-        console.log('this.state.show',this.state.show);
         if (this.state.show) {
             return (
                 <TouchableHighlight
@@ -247,7 +237,6 @@ const Prioritize = React.createClass({
     },
             
     render() {
-    //    this.getData();
         if (!this.state.loaded) {
             return this.loading();
         }

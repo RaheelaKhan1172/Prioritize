@@ -88,7 +88,7 @@ var ViewTask = React.createClass({
         if(this.state.data) {
         return(
             <View style={styles.container}>
-                <Text style={styles.headline}> This task has the highest priority. You can do it! </Text> 
+                <Text style={styles.headline}> This task has the highest priority. </Text> 
                 <Text style={styles.mainText}> {this.state.currentTask}</Text>
                 <View style={styles.left}>
                     <TouchableHighlight

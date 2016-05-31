@@ -163,10 +163,12 @@ var styles = StyleSheet.create({
         height:40,
         borderRadius:20,
         borderColor: '#03A9F4',
-        borderWidth:1
+        borderWidth:1,
+        marginLeft:WindowCheck.marginNeeded()
     },
     slider: {
-        width:WindowCheck.getFormWidth()
+        width:WindowCheck.getFormWidth(),
+        marginLeft:WindowCheck.marginNeeded()
     },
     button: {
         padding:0,
