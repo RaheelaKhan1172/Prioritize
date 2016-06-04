@@ -1,6 +1,6 @@
 {
   "name": "Prioritize",
   "tagline": "Push and pop your way to completing tasks with the highest priority ",
-  "body": "#Prioritize\r\n\r\nBrain clutter, fidgety behavior, anxiety, analysis paralysis be gone! Prioritize tells you which task to do based on the task with the highest priority available. If you want to eat ice cream but completing a project has a higher priority, that ice creams gonna have to be pushed down the stack until you pop that project first!\r\n\r\nAvailable soon on the app store!\r\n\r\nMade with React Native and Reflux. ",
+  "body": "#Prioritize\r\n\r\nBrain clutter, fidgety behavior, anxiety, analysis paralysis be gone! Prioritize tells you which task to do based on the task with the highest priority available. If you want to eat ice cream but completing a project has a higher priority, that ice creams gonna have to be pushed down the stack until you pop that project first!\r\n\r\nSearch 'Prioritize Tasks' in the AppStore! \r\n\r\nMade with React Native and Reflux. ",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
